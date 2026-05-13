@@ -1,10 +1,22 @@
-export default function QuestionTypeBar() {
+type QuestionTypeBarProps = {
+    question: string;
+    setQuestion: (value: string) => void;
+    handleAddQuestion: () => void;
+};
+
+export default function QuestionTypeBar({
+                                            question,
+                                            setQuestion,
+                                            handleAddQuestion,
+                                        }: QuestionTypeBarProps) {
     return (
-        <div className="w-full max-w-3xl">
+        <div className="w-full">
             <div className="flex items-center gap-3">
                 <div className="flex-1">
                     <input
                         type="text"
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
                         placeholder="Type your question..."
                         className="
               w-full
@@ -23,6 +35,7 @@ export default function QuestionTypeBar() {
                 </div>
 
                 <button
+                    onClick={handleAddQuestion}
                     className="
             flex items-center gap-2
             rounded-full

@@ -1,17 +1,29 @@
+"use client";
+
+import { useState } from "react";
 import QuestionTypeBar from "./QuestionTypeBar";
 
 export default function QuestionForm() {
+    const [question, setQuestion] = useState("");
+    const [questions, setQuestions] = useState<string[]>([]);
+
+    const handleAddQuestion = () => {
+        if (question.trim() === "") return;
+
+        setQuestions([question, ...questions]);
+        setQuestion("");
+    };
+
     return (
         <div
             className="
         w-full
-        max-w-3xl
+        max-w-4xl
         rounded-[28px]
         border border-[#132238]
         bg-[#07101D]
         p-8
         shadow-[0_0_40px_rgba(0,0,0,0.35)]
-        ml-5
       "
         >
             <div className="flex items-start justify-between">
@@ -30,26 +42,32 @@ export default function QuestionForm() {
                 </div>
 
                 <div className="pt-2 text-[11px] uppercase tracking-[0.35em] text-[#718096]">
-                    3 Questions
+                    {questions.length} Questions
                 </div>
             </div>
 
             <div className="mt-8">
-                <QuestionTypeBar />
+                <QuestionTypeBar
+                    question={question}
+                    setQuestion={setQuestion}
+                    handleAddQuestion={handleAddQuestion}
+                />
             </div>
 
             <div className="mt-8 space-y-4">
-                <div className="rounded-3xl border border-[#122033] bg-[#040B16] p-6">
-                    <p className="text-white">Question component here</p>
-                </div>
-
-                <div className="rounded-3xl border border-[#122033] bg-[#040B16] p-6">
-                    <p className="text-white">Question component here</p>
-                </div>
-
-                <div className="rounded-3xl border border-[#122033] bg-[#040B16] p-6">
-                    <p className="text-white">Question component here</p>
-                </div>
+                {questions.map((item, index) => (
+                    <div
+                        key={index}
+                        className="
+              rounded-3xl
+              border border-[#122033]
+              bg-[#040B16]
+              p-6
+            "
+                    >
+                        <p className="text-white">{item}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );
