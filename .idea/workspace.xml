@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="265554ad-34f8-43d3-9284-c073a3beb9ba" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/components/question-component/QuestionForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/question-component/QuestionForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/question-component/QuestionTypeBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/question-component/QuestionTypeBar.tsx" afterDir="false" />
-    </list>
+    <list default="true" id="265554ad-34f8-43d3-9284-c073a3beb9ba" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,7 +96,7 @@
       <option name="presentableId" value="Default" />
       <updated>1778672375393</updated>
       <workItem from="1778672376560" duration="670000" />
-      <workItem from="1778674505407" duration="4039000" />
+      <workItem from="1778674505407" duration="4388000" />
     </task>
     <servers />
   </component>

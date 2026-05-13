@@ -14,6 +14,12 @@ export default function QuestionForm() {
         setQuestion("");
     };
 
+    const handleDeleteQuestion = (indexToDelete: number) => {
+        setQuestions(
+            questions.filter((_, index) => index !== indexToDelete)
+        );
+    };
+
     return (
         <div
             className="
@@ -59,13 +65,29 @@ export default function QuestionForm() {
                     <div
                         key={index}
                         className="
-              rounded-3xl
-              border border-[#122033]
-              bg-[#040B16]
-              p-6
-            "
+                              flex items-center justify-between
+                              rounded-3xl
+                              border border-[#122033]
+                              bg-[#040B16]
+                              p-6
+                            "
                     >
                         <p className="text-white">{item}</p>
+
+                        <button
+                            onClick={() => handleDeleteQuestion(index)}
+                            className="
+                                rounded-full
+                                border border-red-500/30
+                                bg-red-500/10
+                                px-4 py-2
+                                text-sm text-red-400
+                                transition
+                                hover:bg-red-500/20
+                              "
+                        >
+                            Delete
+                        </button>
                     </div>
                 ))}
             </div>
