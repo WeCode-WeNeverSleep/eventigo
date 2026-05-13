@@ -3,21 +3,49 @@
 import { useState } from "react";
 import QuestionTypeBar from "./QuestionTypeBar";
 
+type Question = {
+    id: string;
+    userName: string;
+    content: string;
+    createdAt: string;
+};
+
+const formatTimeAgo = (dateString: string) => {
+    if (!dateString) return "";
+
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "";
+
+    const now = new Date();
+    const diff = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    if (diff < 10) return "now";
+    if (diff < 60) return ` ${diff} sec ago`;
+    if (diff < 3600) return ` ${Math.floor(diff / 60)} min`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} h`;
+    return ` ${Math.floor(diff / 86400)} j`;
+};
+
 export default function QuestionForm() {
     const [question, setQuestion] = useState("");
-    const [questions, setQuestions] = useState<string[]>([]);
+    const [questions, setQuestions] = useState<Question[]>([]);
 
     const handleAddQuestion = () => {
         if (question.trim() === "") return;
 
-        setQuestions([question, ...questions]);
+        const newQuestion: Question = {
+            id: crypto.randomUUID(),
+            userName: "Anonymous",
+            content: question,
+            createdAt: new Date().toISOString(),
+        };
+
+        setQuestions([newQuestion, ...questions]);
         setQuestion("");
     };
 
-    const handleDeleteQuestion = (indexToDelete: number) => {
-        setQuestions(
-            questions.filter((_, index) => index !== indexToDelete)
-        );
+    const handleDeleteQuestion = (id: string) => {
+        setQuestions(questions.filter((q) => q.id !== id));
     };
 
     return (
@@ -32,6 +60,7 @@ export default function QuestionForm() {
         shadow-[0_0_40px_rgba(0,0,0,0.35)]
       "
         >
+            {/* HEADER */}
             <div className="flex items-start justify-between">
                 <div>
                     <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#00C2FF]">
@@ -52,6 +81,7 @@ export default function QuestionForm() {
                 </div>
             </div>
 
+            {/* INPUT */}
             <div className="mt-8">
                 <QuestionTypeBar
                     question={question}
@@ -60,31 +90,49 @@ export default function QuestionForm() {
                 />
             </div>
 
+            {/* LIST */}
             <div className="mt-8 space-y-4">
-                {questions.map((item, index) => (
+                {questions.map((question) => (
                     <div
-                        key={index}
+                        key={question.id}
                         className="
-                              flex items-center justify-between
-                              rounded-3xl
-                              border border-[#122033]
-                              bg-[#040B16]
-                              p-6
-                            "
+              flex items-start justify-between
+              rounded-3xl
+              border border-[#122033]
+              bg-[#040B16]
+              p-6
+              gap-4
+            "
                     >
-                        <p className="text-white">{item}</p>
+                        {/* LEFT */}
+                        <div className="flex flex-col">
+                            <div className="flex items-center gap-3 mb-2">
+                                <p className="text-white font-medium">
+                                    {question.userName}
+                                </p>
 
+                                <span className="text-xs text-gray-400">
+                  {formatTimeAgo(question.createdAt)}
+                </span>
+                            </div>
+
+                            <p className="text-gray-200">
+                                {question.content}
+                            </p>
+                        </div>
+
+                        {/* DELETE */}
                         <button
-                            onClick={() => handleDeleteQuestion(index)}
+                            onClick={() => handleDeleteQuestion(question.id)}
                             className="
-                                rounded-full
-                                border border-red-500/30
-                                bg-red-500/10
-                                px-4 py-2
-                                text-sm text-red-400
-                                transition
-                                hover:bg-red-500/20
-                              "
+                rounded-full
+                border border-red-500/30
+                bg-red-500/10
+                px-4 py-2
+                text-sm text-red-400
+                transition
+                hover:bg-red-500/20
+              "
                         >
                             Delete
                         </button>
