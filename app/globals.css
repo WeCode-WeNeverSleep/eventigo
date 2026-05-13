@@ -1,44 +1,64 @@
 @import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Rokkitt:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+@theme inline {
+  --font-sans: "Chivo", ui-sans-serif, system-ui;
+  --font-serif: "Lora", ui-serif, Georgia;
+  --font-title: "Rokkitt", serif;
+
+  --color-primary: rgb(var(--c-primary));
+  --color-primary-foreground: rgb(var(--c-primary-fg));
+
+  --color-background: rgb(var(--c-background));
+  --color-live: rgb(var(--c-live));
+
+  --color-surface: rgb(var(--c-surface));
+  --color-surface-light: rgb(var(--c-surface-light));
+
+  --color-text-main: rgb(var(--c-text-main));
+  --color-text-muted: rgb(var(--c-text-muted));
+
+  --color-border: rgb(var(--c-border));
+}
+
 @layer base {
   :root {
-    --color-primary: 19 220 246; /* #13DCF6 */
-    --color-primary-fg: 11 33 26; /* Dark text for better contrast on neon cyan */
-    --color-live: 255 58 90; /* #FF3A5A */
+    --c-primary: 19 220 246; /* #13DCF6 */
+    --c-primary-fg: 11 33 26; /* Dark text for better contrast on neon cyan */
+    --c-live: 255 58 90; /* #FF3A5A */
 
-    --color-background: 11 33 26; /* #0B211A */
-    --color-surface: 14 23 32; /* #0E1720 */
-    --color-surface-light: 17 26 36; /* #111A24 */
+    --c-background: 7 14 21; /* #070E15 */
+    --c-surface: 14 23 32; /* #0E1720 */
+    --c-surface-light: 17 26 36; /* #111A24 */
 
-    --color-text-main: 239 246 251; /* #EFF6FB */
-    --color-text-muted: 142 154 164; /* #8E9AA4 */
+    --c-text-main: 239 246 251; /* #EFF6FB */
+    --c-text-muted: 142 154 164; /* #8E9AA4 */
 
-    --color-border: 255 255 255 / 0.08;
+    --c-border: 255 255 255 / 0.2;
 
     color-scheme: dark;
   }
 
   .light {
-    --color-primary: 0 148 205; /* #0094CD */
-    --color-primary-fg: 255 255 255; /* White text on blue */
-    --color-accent: 239 75 103; /* #EF4B67 */
+    --c-primary: 0 148 205; /* #0094CD */
+    --c-primary-fg: 255 255 255; /* White text on blue */
+    --c-live: 239 75 103; /* #EF4B67 */
 
-    --color-background: 249 252 255; /* #F9FCFF */
-    --color-surface: 236 243 248; /* #ECF3F8 */
-    --color-surface-light: 220 231 231; /* #DCE2E7 */
+    --c-background: 249 252 255; /* #E8E7E4 */
+    --c-surface: 236 243 248; /* #ECF3F8 */
+    --c-surface-light: 220 231 231; /* #DCE2E7 */
 
-    --color-text-main: 7 18 30; /* #07121E */
-    --color-text-muted: 91 100 111; /* #5B646F */
+    --c-text-main: 7 18 30; /* #07121E */
+    --c-text-muted: 91 100 111; /* #5B646F */
 
-    --color-border: 0 0 0 / 0.1; /* Adjusted for visibility on light bg */
+    --c-border: 0 0 0 / 0.1; /* Adjusted for visibility on light bg */
 
     color-scheme: light;
   }
 }
 
 body {
-  background: rgb(var(--color-background));
-  color: rgb(var(--color-text-main));
+  background: rgb(var(--c-background));
+  color: rgb(var(--c-text-main));
   font-family: "Chivo", sans-serif;
 }
