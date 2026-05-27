@@ -23,7 +23,7 @@ export default async function EventPage({ params }: EventPageProps) {
           <IoMdArrowRoundBack className="inline" /> Back to sessions
         </button>
 
-        <SessionHeroCard />
+        <SessionHeroCard session={session} />
 
         <section className="mt-8 grid gap-4 md:grid-cols-1 lg:grid-cols-12 items-start">
           <div className="lg:col-span-8">
