@@ -3,6 +3,7 @@ import QuestionForm from "@/components/question-component/QuestionForm";
 import SessionHeroCard from "@/components/sessions/sessionHeroCard";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { getSessionById } from "@/lib/api/session";
+import Link from "next/link";
 
 type EventPageProps = {
   params: Promise<{
@@ -19,9 +20,13 @@ export default async function EventPage({ params }: EventPageProps) {
   return (
     <main className="min-h-screen bg-background text-text-main px-4 md:px-8">
       <div className="mx-auto max-w-7xl">
-        <button className="mb-6 text-sm text-text-main hover:text-text-muted transition">
-          <IoMdArrowRoundBack className="inline" /> Back to sessions
-        </button>
+        <Link
+          href={`/events/${eventId}/sessions`}
+          className="mb-6 inline-flex items-center gap-1 text-sm text-text-main hover:text-text-muted transition"
+        >
+          <IoMdArrowRoundBack />
+          Back to sessions
+        </Link>
 
         <SessionHeroCard session={session} />
 
