@@ -3,16 +3,10 @@ import QuestionForm from "@/components/question-component/QuestionForm";
 import SessionHeroCard from "@/components/sessions/sessionHeroCard";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { getSessionById } from "@/lib/api/session";
+import type { SessionPageProps } from "@/types/sessionPageProps";
 import Link from "next/link";
 
-type EventPageProps = {
-  params: Promise<{
-    eventId: string;
-    sessionId: string;
-  }>;
-};
-
-export default async function EventPage({ params }: EventPageProps) {
+export default async function SessionPage({ params }: SessionPageProps) {
   const { eventId, sessionId } = await params;
 
   const session = await getSessionById(eventId, sessionId);
