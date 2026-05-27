@@ -2,8 +2,21 @@ import Speaker from "@/components/SpeakerComponent/SpeakerComponent";
 import QuestionForm from "@/components/question-component/QuestionForm";
 import SessionHeroCard from "@/components/sessions/sessionHeroCard";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { getSessionById } from "@/lib/api/session";
 
-export default function EventPage() {
+type EventPageProps = {
+  params: Promise<{
+    eventId: string;
+    sessionId: string;
+  }>;
+};
+
+export default async function EventPage({ params }: EventPageProps) {
+  const { eventId, sessionId } = await params;
+
+  const session = await getSessionById(eventId, sessionId);
+
+  console.log("SESSION DETAIL:", session);
   return (
     <main className="min-h-screen bg-background text-text-main px-4 md:px-8">
       <div className="mx-auto max-w-7xl">
