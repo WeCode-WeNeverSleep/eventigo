@@ -3,6 +3,10 @@
 import { useState } from "react";
 import QuestionTypeBar from "./QuestionTypeBar";
 
+type QuestionFormProps = {
+  sessionId: string;
+};
+
 type Question = {
   id: string;
   userName: string;
@@ -26,7 +30,9 @@ const formatTimeAgo = (dateString: string) => {
   return ` ${Math.floor(diff / 86400)} j`;
 };
 
-export default function QuestionForm() {
+export default function QuestionForm({ sessionId }: QuestionFormProps) {
+  console.log("QUESTION FORM SESSION ID:", sessionId);
+
   const [question, setQuestion] = useState("");
   const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -49,7 +55,7 @@ export default function QuestionForm() {
   };
 
   return (
-    <div className=" w-full rounded-[28px] border border-border bg-background p-8 shadow-[0_0_40px_rgba(0,0,0,0.35)] ">
+    <div className="w-full rounded-[28px] border border-border bg-background p-8 shadow-[0_0_40px_rgba(0,0,0,0.35)]">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-primary">
@@ -125,4 +131,3 @@ export default function QuestionForm() {
     </div>
   );
 }
-

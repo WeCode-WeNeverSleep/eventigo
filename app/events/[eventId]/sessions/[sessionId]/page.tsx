@@ -27,7 +27,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
         <section className="mt-8 grid gap-4 md:grid-cols-1 lg:grid-cols-12 items-start">
           <div className="lg:col-span-8">
-            <QuestionForm />
+            <QuestionForm sessionId={session.id} />
           </div>
           <div className="lg:col-span-4">
             <Speaker speakers={session.speakers} />
