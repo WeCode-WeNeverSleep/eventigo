@@ -14,9 +14,12 @@ interface Props {
 }
 
 export function ScheduleEventCard({ session }: Props) {
+  const start = new Date(session.startTime);
+  const end = new Date(session.endTime);
+
   return (
     <div className="rounded-3xl border border-border bg-card/50 p-6 backdrop-blur">
-      
+
       <div className="flex items-center justify-between">
         {session.isLive ? (
           <span className="inline-flex items-center gap-2 rounded-full bg-live/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-live">
@@ -30,7 +33,7 @@ export function ScheduleEventCard({ session }: Props) {
         )}
 
         <span className="text-xs uppercase tracking-widest text-text-muted">
-          {session.room?.name}
+          {session.room.name}
         </span>
       </div>
 
@@ -43,11 +46,11 @@ export function ScheduleEventCard({ session }: Props) {
       </p>
 
       <div className="mt-5 flex flex-wrap gap-5 text-sm text-text-muted">
-        
+
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faClock} />
 
-          {new Date(session.startTime).toLocaleTimeString("en-US", {
+          {start.toLocaleTimeString("en-US", {
             hour: "2-digit",
             minute: "2-digit",
             hour12: false,
@@ -55,7 +58,7 @@ export function ScheduleEventCard({ session }: Props) {
 
           {" - "}
 
-          {new Date(session.endTime).toLocaleTimeString("en-US", {
+          {end.toLocaleTimeString("en-US", {
             hour: "2-digit",
             minute: "2-digit",
             hour12: false,
@@ -64,12 +67,11 @@ export function ScheduleEventCard({ session }: Props) {
 
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faLocationDot} />
-          {session.room?.name}
+          {session.room.name}
         </div>
       </div>
 
-      {/* SPEAKERS */}
-      {session.speakers?.length > 0 && (
+      {session.speakers.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-2">
           {session.speakers.map((speaker) => (
             <span
