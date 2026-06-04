@@ -46,16 +46,7 @@ export default async function Home() {
 
           <div className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             {events.slice(0, 4).map((event) => (
-              <EventCard
-                key={event.id}
-                startDate={event.startDate.toISOString()}
-                endDate={event.endDate.toISOString()}
-                title={event.title}
-                description={event.description || ""}
-                time={`${event.startDate.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })} - ${event.endDate.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false })}`}
-                location={event.location}
-                cta="View event details"
-              />
+              <EventCard key={event.id} event={event} />
             ))}
           </div>
         </section>

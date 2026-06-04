@@ -39,6 +39,7 @@ export default async function SessionsPage({ params }: PageProps) {
   return (
     <div className="flex flex-col gap-12">
       <EventHeroCard event={event} />
+
       {liveSessions.length > 0 && (
         <section>
           <div className="flex flex-col gap-2 mb-6">
