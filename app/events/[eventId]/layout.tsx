@@ -19,6 +19,12 @@ export default async function SessionsLayout({
 }) {
   const { eventId } = await params;
   const event = await getEventById(eventId);
+
+  const dashboard = process.env.DASHBOARD_URL;
+  if (!dashboard) {
+    return "DASHBOARD_URL is missing";
+  }
+
   return (
     <section className="flex">
       <aside className="border-r border-border hidden lg:flex flex-col">
@@ -27,7 +33,7 @@ export default async function SessionsLayout({
 
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         <div className="w-full">
-          <NavbarSession />
+          <NavbarSession dashboard={dashboard} />
         </div>
 
         <main className="flex-1 overflow-y-auto p-5">{children}</main>

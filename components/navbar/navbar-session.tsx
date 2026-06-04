@@ -9,10 +9,14 @@ import { useSyncExternalStore } from "react";
 
 interface NavbarSessionProps {
   eventStartDate?: string;
+  dashboard: string;
 }
 
 function getDateLabel() {
-  return new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function getDayNumber(eventStartDate: string): number {
@@ -20,17 +24,22 @@ function getDayNumber(eventStartDate: string): number {
   start.setHours(0, 0, 0, 0);
   const now = new Date();
   now.setHours(0, 0, 0, 0);
-  return Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+  return (
+    Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1
+  );
 }
 
-const noop = () => () => { };
+const noop = () => () => {};
 
-export function NavbarSession({ eventStartDate }: NavbarSessionProps) {
+export function NavbarSession({
+  eventStartDate,
+  dashboard,
+}: NavbarSessionProps) {
   const dateLabel = useSyncExternalStore(noop, getDateLabel, () => "");
   const dayNumber = useSyncExternalStore(
     noop,
     () => (eventStartDate ? getDayNumber(eventStartDate) : null),
-    () => null
+    () => null,
   );
 
   return (
@@ -44,7 +53,9 @@ export function NavbarSession({ eventStartDate }: NavbarSessionProps) {
           {dateLabel && (
             <div
               className="flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 text-xs font-sans text-text-muted"
-              aria-label={dayNumber ? `Day ${dayNumber} - ${dateLabel}` : dateLabel}
+              aria-label={
+                dayNumber ? `Day ${dayNumber} - ${dateLabel}` : dateLabel
+              }
             >
               <FontAwesomeIcon icon={faCalendarDays} className="h-3 w-3" />
               <span>
@@ -56,13 +67,13 @@ export function NavbarSession({ eventStartDate }: NavbarSessionProps) {
 
           <ModeToggle />
 
-          <Link
-            href="/dashboard/login"
+          <a
+            href={dashboard}
             id="admin-login-btn"
             className="inline-flex items-center rounded-full bg-primary px-4 py-3 text-sm font-semibold font-sans leading-none text-primary-foreground shadow-[0_0_16px_rgba(19,220,246,0.35)] transition-all duration-300 hover:shadow-[0_0_24px_rgba(19,220,246,0.6)] hover:brightness-110 active:scale-95"
           >
             Admin login
-          </Link>
+          </a>
         </div>
       </div>
     </header>

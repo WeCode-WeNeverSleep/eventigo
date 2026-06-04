@@ -10,9 +10,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default async function Home() {
   const events = await getEvents().catch(() => []);
 
+  const dashboard = process.env.DASHBOARD_URL;
+  if (!dashboard) {
+    return "DASHBOARD_URL is missing";
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
-      <NavbarLanding />
+      <NavbarLanding dashboard={dashboard} />
 
       <main className="flex-1 w-full xl:px-38 lg:px-38 px-4 sm:px-6">
         <section className="flex justify-center pt-20 pb-16">

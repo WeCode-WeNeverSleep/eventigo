@@ -15,6 +15,12 @@ export const Sidebar = ({ event }: SidebarProps) => {
     event.sessions.flatMap((s) => s.speakers.map((sp) => sp.id)),
   ).size;
 
+  const liveCount = event.sessions.filter((s) => s.isLive).length;
+  const upcomingCount = event.sessions.filter(
+    (s) => !s.isLive && new Date(s.startTime) > new Date(),
+  ).length;
+  const sessionL = liveCount + upcomingCount;
+
   return (
     <div className="sticky top-0 shrink-0 h-screen w-fit flex px-8 py-10 flex-col gap-20">
       <NavbarLogo />
@@ -32,7 +38,7 @@ export const Sidebar = ({ event }: SidebarProps) => {
             />
             <p>Sessions</p>
           </div>
-          <p>{event.sessions.length}</p>
+          <p>{sessionL}</p>
         </Link>
 
         <Link
