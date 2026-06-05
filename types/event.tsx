@@ -21,4 +21,6 @@ export interface EventCardProps {
   time: string;
   location: string;
   cta: string;
+  eventId: string;
 }
+

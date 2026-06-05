@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { NavbarSession } from "@/components/navbar/navbar-session";
 import { Sidebar } from "@/components/UI/sidebar";
+import { getEventById } from "@/lib/api/event";
 
 export const metadata: Metadata = {
   title: "EventiGO",
@@ -9,20 +10,30 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SessionsLayout({
+export default async function SessionsLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ eventId: string }>;
 }) {
+  const { eventId } = await params;
+  const event = await getEventById(eventId);
+
+  const dashboard = process.env.DASHBOARD_URL;
+  if (!dashboard) {
+    return "DASHBOARD_URL is missing";
+  }
+
   return (
     <section className="flex">
       <aside className="border-r border-border hidden lg:flex flex-col">
-        <Sidebar />
+        <Sidebar event={event} />
       </aside>
 
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
         <div className="w-full">
-          <NavbarSession />
+          <NavbarSession dashboard={dashboard} />
         </div>
 
         <main className="flex-1 overflow-y-auto p-5">{children}</main>
