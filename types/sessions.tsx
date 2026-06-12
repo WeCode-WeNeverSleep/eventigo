@@ -5,9 +5,10 @@ export interface Session {
   id: string;
   title: string;
   description: string;
-  starTime: Date;
+  startTime: Date;
   endTime: Date;
   capacity: number | null;
+  eventId: string;
   room: Room;
   isLive: boolean;
   speakers: Speaker[];

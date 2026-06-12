@@ -1,29 +1,32 @@
 import { faCalendar, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons/faMicrophone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
+import { NavbarLogo } from "../navbar/navbar-logo";
+import Link from "next/link";
+import { Event } from "@/types/event";
 
-export const Sidebar = () => {
+interface SidebarProps {
+  event: Event;
+}
+
+export const Sidebar = ({ event }: SidebarProps) => {
+  const eventId = event.id;
+  const speakerCount = new Set(
+    event.sessions.flatMap((s) => s.speakers.map((sp) => sp.id)),
+  ).size;
+
+  const liveCount = event.sessions.filter((s) => s.isLive).length;
+  const upcomingCount = event.sessions.filter(
+    (s) => !s.isLive && new Date(s.startTime) > new Date(),
+  ).length;
+  const sessionL = liveCount + upcomingCount;
+
   return (
     <div className="sticky top-0 shrink-0 h-screen w-fit flex px-8 py-10 flex-col gap-20">
-      <div className="group flex items-center gap-4 cursor-pointer">
-        <Image
-          src="/logo.png"
-          alt="EventiGO Logo"
-          width={50}
-          height={50}
-          className="border border-primary rounded-full"
-        />
-        <div className="flex flex-col">
-          <h1 className="font-black text-xl">
-            Eventi<span className="text-primary">GO</span>
-          </h1>
-          <p className="font-extralight text-sm">v.2026</p>
-        </div>
-      </div>
-
+      <NavbarLogo />
       <div className="flex flex-col gap-5">
-        <div
+        <Link
+          href={`/events/${eventId}/sessions`}
           className="group flex items-center justify-between py-2 px-3 rounded-l-3xl 
           hover:bg-linear-to-r hover:from-primary/55 hover:to-transparent 
           transition-colors duration-150 cursor-pointer"
@@ -35,10 +38,11 @@ export const Sidebar = () => {
             />
             <p>Sessions</p>
           </div>
-          <p>24</p>
-        </div>
+          <p>{sessionL}</p>
+        </Link>
 
-        <div
+        <Link
+          href={`/events/${eventId}/schedule`}
           className="group flex items-center justify-between py-2 px-3 rounded-l-3xl 
           hover:bg-linear-to-r hover:from-primary/55 hover:to-transparent 
           transition-colors duration-150 cursor-pointer"
@@ -50,10 +54,11 @@ export const Sidebar = () => {
             />
             <p>Schedules</p>
           </div>
-          <p>24</p>
-        </div>
+          <p>{event.sessions.length}</p>
+        </Link>
 
-        <div
+        <Link
+          href={`/speakers`}
           className="group flex items-center justify-between py-2 px-3 rounded-l-3xl 
           hover:bg-linear-to-r hover:from-primary/55 hover:to-transparent 
           transition-colors duration-150 cursor-pointer"
@@ -65,8 +70,8 @@ export const Sidebar = () => {
             />
             <p>Speaker</p>
           </div>
-          <p>24</p>
-        </div>
+          <p>{speakerCount}</p>
+        </Link>
       </div>
 
       <div className="mt-auto">
