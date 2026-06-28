@@ -19,7 +19,15 @@ export interface BackendSpeaker {
 }
 
 export async function fetchSpeakersWithSessions(): Promise<BackendSpeaker[]> {
-  const res = await fetch("/api/speakers", {
+  const baseUrl = process.env.API_URL;
+
+  if (!baseUrl) {
+    throw new Error("API_URL is not defined");
+  }
+
+  const url = `${baseUrl}/speakers`;
+
+  const res = await fetch(url, {
     next: { revalidate: 30 },
   });
 
@@ -32,6 +40,26 @@ export async function fetchSpeakersWithSessions(): Promise<BackendSpeaker[]> {
     throw new Error(
       "Expected JSON response from backend but received HTML template configuration.",
     );
+  }
+
+  return res.json();
+}
+
+export async function fetchSpeakerById(speakerId: string): Promise<BackendSpeaker> {
+  const baseUrl = process.env.API_URL;
+
+  if (!baseUrl) {
+    throw new Error("API_URL is not defined");
+  }
+
+  const url = `${baseUrl}/speakers/${speakerId}`;
+
+  const res = await fetch(url, {
+    next: { revalidate: 30 },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch speaker data: ${res.statusText}`);
   }
 
   return res.json();
