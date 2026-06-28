@@ -52,6 +52,7 @@ export default async function SpeakerPage({ params }: PageProps) {
                 avatarUrl: speaker.avatarUrl || "",
                 bio: speaker.bio,
                 externalLinks: speaker.externalLinks || [],
+                sessions: speaker.sessions || [],
               }}
               eventId={eventId}
             />

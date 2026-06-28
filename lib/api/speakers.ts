@@ -36,6 +36,13 @@ export async function fetchSpeakerById(speakerId: string): Promise<Speaker> {
   if (!res.ok) {
     throw new Error(`Failed to fetch speaker data: ${res.statusText}`);
   }
+  const data = await res.json();
 
-  return res.json();
+  const normalizedSpeaker: Speaker = {
+    ...data,
+    avatarUrl: data.avatarUrl ?? data.profilePictureUrl ?? null,
+    sessions: data.sessions || [],
+  };
+
+  return normalizedSpeaker;
 }
