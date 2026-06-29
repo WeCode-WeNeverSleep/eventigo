@@ -11,6 +11,7 @@ import { faThumbsUp as faThumbsUpSolid } from "@fortawesome/free-solid-svg-icons
 type QuestionFormProps = {
   sessionId: string;
   socketUrl: string;
+  status: "live" | "upcoming" | "passed";
 };
 
 type QuestionUpvotedPayload = {
@@ -37,6 +38,7 @@ const formatTimeAgo = (dateString: string) => {
 export default function QuestionForm({
   sessionId,
   socketUrl,
+  status,
 }: QuestionFormProps) {
   const [question, setQuestion] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -136,60 +138,66 @@ export default function QuestionForm({
     socket.emit("upvote_question", questionId);
   };
 
-  return (
-    <div className="w-full rounded-[28px] border border-border bg-background p-8 shadow-[0_0_40px_rgba(0,0,0,0.35)]">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-primary">
-            Live Q&A
-          </p>
+    return (
+      <div className="w-full rounded-[28px] border border-border bg-background p-8 shadow-[0_0_40px_rgba(0,0,0,0.35)]">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-primary">
+              {status === "passed" ? "Past Q&A" : status === "upcoming" ? "Upcoming Q&A" : "Live Q&A"}
+            </p>
 
-          <h1 className="mt-2 text-3xl font-semibold text-text-main">
-            Ask the speaker
-          </h1>
+            <h1 className="mt-2 text-3xl font-semibold text-text-main">
+              {status === "passed" ? "Session Questions" : status === "upcoming" ? "Coming Soon" : "Ask the speaker"}
+            </h1>
 
-          <p className="mt-2 text-sm text-text-muted">
-            Most-liked questions float to the top.
-          </p>
+            <p className="mt-2 text-sm text-text-muted">
+              {status === "passed" 
+                ? "These are the questions asked during the session." 
+                : status === "upcoming" 
+                ? "You'll be able to ask questions once the session starts." 
+                : "Most-liked questions float to the top."}
+            </p>
 
-          {socketError && (
-            <p className="mt-3 text-sm text-red-400">{socketError}</p>
-          )}
+            {socketError && socketError !== "This session is not currently live or does not exist" && (
+              <p className="mt-3 text-sm text-red-400">{socketError}</p>
+            )}
+          </div>
+
+          <div className="pt-2 text-[11px] uppercase tracking-[0.35em] text-text-muted">
+            {questions.length} Questions
+          </div>
         </div>
 
-        <div className="pt-2 text-[11px] uppercase tracking-[0.35em] text-text-muted">
-          {questions.length} Questions
-        </div>
-      </div>
+        {status === "live" && (
+          <div className="mt-8 space-y-4">
+            <input
+              type="text"
+              value={authorName}
+              onChange={(event) => setAuthorName(event.target.value)}
+              placeholder="Your name (optional)"
+              className="
+                w-full
+                rounded-2xl
+                border border-border
+                bg-background/50
+                px-5 py-3
+                text-sm text-text-main
+                outline-none
+                transition
+                placeholder:text-text-muted
+                focus:border-primary/50
+              "
+            />
 
-      <div className="mt-8 space-y-4">
-        <input
-          type="text"
-          value={authorName}
-          onChange={(event) => setAuthorName(event.target.value)}
-          placeholder="Your name (optional)"
-          className="
-            w-full
-            rounded-2xl
-            border border-border
-            bg-background/50
-            px-5 py-3
-            text-sm text-text-main
-            outline-none
-            transition
-            placeholder:text-text-muted
-            focus:border-primary/50
-          "
-        />
+            <QuestionTypeBar
+              question={question}
+              setQuestion={setQuestion}
+              handleAddQuestion={handleAddQuestion}
+            />
+          </div>
+        )}
 
-        <QuestionTypeBar
-          question={question}
-          setQuestion={setQuestion}
-          handleAddQuestion={handleAddQuestion}
-        />
-      </div>
-
-      <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-4">
         {questions.map((question) => {
           const isUpvoted = upvotedQuestionIds.has(question.id);
 
@@ -219,24 +227,26 @@ export default function QuestionForm({
                 <p className="text-text-muted">{question.content}</p>
               </div>
 
-              <button
-                type="button"
-                onClick={() => handleUpvote(question.id)}
-                disabled={isUpvoted}
-                className={`
-                  inline-flex items-center gap-2
-                  rounded-full
-                  border
-                  px-4 py-2
-                  text-sm
-                  transition
-                  ${
-                    isUpvoted
-                      ? "border-primary/50 bg-primary/10 text-primary cursor-default"
-                      : "border-border bg-background text-text-muted hover:border-primary/50 hover:text-primary"
-                  }
-                `}
-              >
+               <button
+                 type="button"
+                 onClick={() => handleUpvote(question.id)}
+                 disabled={isUpvoted || status !== "live"}
+                 className={`
+                   inline-flex items-center gap-2
+                   rounded-full
+                   border
+                   px-4 py-2
+                   text-sm
+                   transition
+                   ${
+                     isUpvoted
+                       ? "border-primary/50 bg-primary/10 text-primary cursor-default"
+                       : status !== "live"
+                       ? "border-border bg-background text-text-muted cursor-default"
+                       : "border-border bg-background text-text-muted hover:border-primary/50 hover:text-primary"
+                   }
+                 `}
+               >
                 <FontAwesomeIcon
                   icon={isUpvoted ? faThumbsUpSolid : faThumbsUpRegular}
                   className="h-4 w-4"
