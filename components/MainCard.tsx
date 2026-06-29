@@ -6,6 +6,8 @@ import {
   faBroadcastTower,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
 
 const DARK_GRADIENT = `
   radial-gradient(ellipse at 12% 115%, rgba(99, 40, 180, 0.22) 0%, transparent 52%),
@@ -13,11 +15,18 @@ const DARK_GRADIENT = `
   rgb(10, 18, 28)
 `;
 
+const LIGHT_GRADIENT = `linear-gradient(135deg, #d5eef8 0%, #e8e0f8 100%)`;
+
 export function MainCard() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const isLight = mounted && resolvedTheme === "light";
   return (
     <div
       className="relative overflow-hidden rounded-4xl border border-border p-10 md:p-16 w-full max-w-7xl mx-auto"
-      style={{ background: DARK_GRADIENT }}
+      style={{ background: isLight ? LIGHT_GRADIENT : DARK_GRADIENT }}
     >
       <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full border border-border bg-red-surface">
         <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />

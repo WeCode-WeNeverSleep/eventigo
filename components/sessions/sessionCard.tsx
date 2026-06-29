@@ -31,7 +31,7 @@ export const SessionCard = ({ session }: SessionCardProps) => {
   const endTime = getDuration(session.endTime);
 
   return (
-    <div className="w-full sm:max-w-1/2 lg:max-w-1/3 flex flex-col rounded-4xl bg-background border border-border p-6 shadow-2xl">
+    <div className="w-full flex flex-col rounded-4xl bg-background border border-border p-6 shadow-2xl">
       <div className="flex items-center justify-between mb-4">
         {session.isLive ? (
           <div className="flex items-center gap-2 bg-live/30 px-3 py-1.5 rounded-full border border-live/70">
@@ -84,9 +84,9 @@ export const SessionCard = ({ session }: SessionCardProps) => {
               style={{ backgroundColor: i % 2 === 0 ? "#13DCF6" : "#c611ff" }}
               className="w-10 h-10 rounded-full border-2 border-border flex items-center bg-red-500 justify-center text-xs font-bold text-primary"
             >
-              {speaker.profilePictureUrl ? (
+              {speaker.avatarUrl ? (
                 <img
-                  src={speaker.profilePictureUrl}
+                  src={speaker.avatarUrl}
                   className="rounded-full w-full h-full object-cover"
                 />
               ) : (
