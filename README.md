@@ -61,7 +61,7 @@ utils/        — Utility functions
 
 ## Contributors
 
-### Rindra — `STD24069` [`rindraniaina`](https://github.com/rindraniaina)
+### Rindra — `STD24069` [`rindra17`](https://github.com/rindra17)
 *Project setup, Next.js configuration, Tailwind CSS, metadata*
 - Project initialization (initial commit, create-next-app)
 - Tailwind v3 → v4 migration
